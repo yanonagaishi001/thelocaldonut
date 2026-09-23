@@ -169,30 +169,30 @@ section{padding-block:88px 0}
 .textlink{font-family:var(--display);font-weight:600;text-decoration:none;background:linear-gradient(var(--yellow),var(--yellow)) left 85%/100% 10px no-repeat;padding:2px 2px;transition:background-size var(--med) var(--ease)}
 .textlink:hover{background-size:100% 100%}
 
-/* ---------- menu ---------- */
-.chips{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px}
-.chip{min-height:46px;padding:0 20px;border-radius:999px;border:3px solid var(--plum);background:#fff;color:var(--plum);font:600 16px/1 var(--display);cursor:pointer;transition:background-color var(--med) var(--ease),transform var(--fast) var(--spring)}
-.chip:active{transform:scale(.94)}
-.chip[aria-pressed="true"]{background:var(--pink);}
-@media (hover:hover){.chip:not([aria-pressed="true"]):hover{background:var(--pink-soft);transform:translateY(-2px)}}
-.menu{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-.item{display:flex;align-items:center;gap:14px;padding:16px 18px;background:var(--card);border:2px solid var(--line);border-radius:18px;transition:border-color var(--med) var(--ease),opacity var(--med) var(--ease),transform var(--med) var(--spring),box-shadow var(--med) var(--ease)}
-.item::before{content:"";flex:none;width:34px;height:34px;border-radius:50%;background:radial-gradient(circle at center,var(--card) 0 5px,transparent 6px),var(--swatch,var(--pink));box-shadow:inset 0 0 0 2px rgba(58,18,51,.15)}
-.item[data-cat="single"]{--swatch:var(--pink)}
-.item[data-cat="more"]{--swatch:var(--orange)}
-.item[data-cat="box"]{--swatch:var(--yellow)}
-.item h3{flex:1;font-size:20px;font-weight:600}
-.item small{display:block;font-family:var(--body);font-weight:600;font-size:14px;color:var(--muted);margin-top:2px}
-.price{font-family:var(--display);font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;background:var(--pink-soft);padding:6px 12px;border-radius:999px;transition:transform var(--med) var(--spring),background-color var(--med) var(--ease)}
+/* ---------- menu: categories with sub menus ---------- */
+.menu{column-count:2;column-gap:14px}
+.cat{break-inside:avoid;margin-bottom:14px;background:var(--card);border:2px solid var(--line);border-radius:18px;padding:2px 18px;transition:border-color var(--med) var(--ease),box-shadow var(--med) var(--ease),transform var(--med) var(--spring)}
+.cat[open]{border-color:var(--plum);box-shadow:var(--pop)}
+.cat summary{display:flex;align-items:center;gap:14px;cursor:pointer;padding:16px 0;list-style:none}
+.cat summary::-webkit-details-marker{display:none}
+.cat summary::before{content:"";flex:none;width:34px;height:34px;border-radius:50%;background:radial-gradient(circle at center,var(--card) 0 5px,transparent 6px),var(--swatch,var(--pink));box-shadow:inset 0 0 0 2px rgba(58,18,51,.15);transition:transform var(--med) var(--spring)}
+.cat[data-cat="single"]{--swatch:var(--pink)}
+.cat[data-cat="more"]{--swatch:var(--orange)}
+.cat[data-cat="box"]{--swatch:var(--yellow)}
+.cat[open] summary::before{transform:rotate(-25deg) scale(1.06)}
+.cat-name{flex:1;font-family:var(--display);font-weight:600;font-size:20px;line-height:1.2}
+.cat-name small{display:block;font-family:var(--body);font-weight:600;font-size:14px;color:var(--muted);margin-top:2px}
+.count{flex:none;min-width:30px;height:30px;padding:0 8px;border-radius:999px;background:var(--pink-soft);font-family:var(--display);font-weight:600;font-size:14px;display:inline-flex;align-items:center;justify-content:center}
+.price{flex:none;font-family:var(--display);font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;background:var(--yellow-soft);padding:6px 12px;border-radius:999px;transition:background-color var(--med) var(--ease)}
+.flavors{list-style:none;margin:0 0 18px;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.flavors li{background:var(--pink-soft);border-radius:999px;padding:8px 14px;font-weight:700;font-size:15px}
 @media (hover:hover){
-  .item:hover{border-color:var(--plum);transform:translateY(-3px);box-shadow:var(--pop)}
-  .item:hover::before{animation:wobble 500ms var(--spring)}
-  .item:hover .price{background:var(--yellow);transform:rotate(-4deg) scale(1.06)}
+  .cat:hover{border-color:var(--plum);transform:translateY(-2px)}
+  .cat:hover .price{background:var(--yellow)}
 }
-@keyframes wobble{0%{transform:rotate(0)}40%{transform:rotate(-25deg)}100%{transform:rotate(0)}}
-.item.dim{opacity:.3;transform:scale(.98)}
 .note{margin:22px 0 0;color:var(--muted);font-size:15px;font-weight:600}
-@media (max-width:720px){.menu{grid-template-columns:1fr}}
+.allergen{margin:14px 0 0;font-weight:700;font-size:15px}
+@media (max-width:720px){.menu{column-count:1}.cat summary{flex-wrap:wrap}.cat-name{flex:1 1 60%}}
 
 /* ---------- order band ---------- */
 .order{margin-top:88px;background:var(--pink) var(--sprinkles);background-size:160px 160px;border:3px solid var(--plum);box-shadow:var(--pop-lg);border-radius:28px;padding:48px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px}
@@ -298,23 +298,148 @@ footer nav a:hover{background:var(--yellow);transform:translateY(-2px)}
         <h2 id="menu-h">The menu</h2>
         <a class="textlink" href="https://the-local-donut.square.site/" target="_blank" rel="noopener">See today's lineup</a>
       </div>
-      <div class="chips" role="group" aria-label="Filter the menu">
-        <button class="chip" type="button" data-filter="all" aria-pressed="true">All</button>
-        <button class="chip" type="button" data-filter="single" aria-pressed="false">By the donut</button>
-        <button class="chip" type="button" data-filter="more" aria-pressed="false">Pastries &amp; more</button>
-        <button class="chip" type="button" data-filter="box" aria-pressed="false">Boxes</button>
-      </div>
+      <p class="note" style="margin:0 0 18px">Tap a category to see what is in it. What is in the case changes daily.</p>
       <div class="menu" id="menu-list">
-        <div class="item" data-cat="single"><h3>Traditional<small>The classics, done right</small></h3><span class="price">$1.75</span></div>
-        <div class="item" data-cat="single"><h3>Classy<small>A step up in flavor</small></h3><span class="price">$2.50</span></div>
-        <div class="item" data-cat="single"><h3>Fancy<small>Filled, topped, and dressed up</small></h3><span class="price">$3.65</span></div>
-        <div class="item" data-cat="single"><h3>Schmancy<small>Our showstoppers</small></h3><span class="price">$4.25</span></div>
-        <div class="item" data-cat="single"><h3>Monthly specials<small>New flavors every month</small></h3><span class="price">from $2.50</span></div>
-        <div class="item" data-cat="more"><h3>Cronuts &amp; croissants<small>Flaky and golden</small></h3><span class="price">from $2.75</span></div>
-        <div class="item" data-cat="more"><h3>Donut holes<small>Little bites</small></h3><span class="price">$3.60</span></div>
-        <div class="item" data-cat="box"><h3>Vegan donuts<small>Boxed</small></h3><span class="price">from $15.87</span></div>
-        <div class="item" data-cat="box"><h3>Assorted half dozen<small>Six of our picks</small></h3><span class="price">from $10.35</span></div>
-        <div class="item" data-cat="box"><h3>Assorted dozen<small>Twelve of our picks</small></h3><span class="price">from $17.38</span></div>
+        <details class="cat" data-cat="single">
+          <summary>
+            <span class="cat-name">Traditional<small>The classics, done right</small></span>
+            <span class="count">21</span>
+            <span class="price">$1.75</span>
+          </summary>
+          <ul class="flavors">
+            <li>Glazed Raised</li>
+            <li>Chocolate Raised</li>
+            <li>Sugar Raised</li>
+            <li>Cinnamon Sugar Raised</li>
+            <li>Red Velvet Cake</li>
+            <li>Blueberry Old Fashion (house special)</li>
+            <li>Glazed Old Fashion</li>
+            <li>Chocolate Old Fashion</li>
+            <li>Maple Old Fashion</li>
+            <li>Chocolate Raised Sprinkle</li>
+            <li>Vanilla Raised Sprinkle</li>
+            <li>Strawberry Raised Sprinkle</li>
+            <li>Chocolate Cake Sprinkles</li>
+            <li>Vanilla Cake Sprinkles</li>
+            <li>Chocolate Bar</li>
+            <li>Maple Bar</li>
+            <li>Glazed Twist</li>
+            <li>Devil's Food: Glazed</li>
+            <li>Devil's Food: Chocolate</li>
+            <li>Devil's Food: Chocolate Iced with Coconut</li>
+            <li>Devil's Food: Chocolate Iced with Sprinkles</li>
+          </ul>
+        </details>
+        <details class="cat" data-cat="single">
+          <summary>
+            <span class="cat-name">Classy<small>Crullers and filled donuts</small></span>
+            <span class="count">9</span>
+            <span class="price">$2.50</span>
+          </summary>
+          <ul class="flavors">
+            <li>Glazed Cruller</li>
+            <li>Strawberry Cruller</li>
+            <li>Maple Cruller</li>
+            <li>Chocolate Cruller</li>
+            <li>Bavarian Filled</li>
+            <li>Raspberry Filled</li>
+            <li>Lemon Filled</li>
+            <li>Apple Cider Old Fashioned (seasonal)</li>
+            <li>Pumpkin Spice Coffee Cake (seasonal)</li>
+          </ul>
+        </details>
+        <details class="cat" data-cat="single">
+          <summary>
+            <span class="cat-name">Fancy<small>Filled, topped, and dressed up</small></span>
+            <span class="count">9</span>
+            <span class="price">$3.65</span>
+          </summary>
+          <ul class="flavors">
+            <li>Oreo</li>
+            <li>Maple Bacon</li>
+            <li>PB&amp;J</li>
+            <li>Apple Fritter</li>
+            <li>Cinnamon Roll</li>
+            <li>Apple Pie</li>
+            <li>Cherry Pie</li>
+            <li>Fruity Pebbles</li>
+            <li>Salted Caramel</li>
+          </ul>
+        </details>
+        <details class="cat" data-cat="single">
+          <summary>
+            <span class="cat-name">Schmancy<small>Our showstoppers</small></span>
+            <span class="count">3</span>
+            <span class="price">$4.25</span>
+          </summary>
+          <ul class="flavors">
+            <li>Cr&egrave;me Br&ucirc;l&eacute;e</li>
+            <li>S'mores</li>
+            <li>Girl Scout Cookie</li>
+          </ul>
+        </details>
+        <details class="cat" data-cat="single">
+          <summary>
+            <span class="cat-name">Monthly specials<small>New flavors every month</small></span>
+            <span class="count">2</span>
+            <span class="price">from $2.50</span>
+          </summary>
+          <ul class="flavors">
+            <li>Tiramisu (seasonal)</li>
+            <li>Pumpkin Cheesecake (seasonal)</li>
+          </ul>
+        </details>
+        <details class="cat" data-cat="single">
+          <summary>
+            <span class="cat-name">Vegan<small>Sold by the box</small></span>
+            <span class="count">1</span>
+            <span class="price">from $15.87</span>
+          </summary>
+          <ul class="flavors">
+            <li>Lemon Poppyseed Crumb</li>
+          </ul>
+        </details>
+        <details class="cat" data-cat="more">
+          <summary>
+            <span class="cat-name">Cronuts<small>Flaky and golden</small></span>
+            <span class="count">3</span>
+            <span class="price">from $2.75</span>
+          </summary>
+          <ul class="flavors">
+            <li>Chantilly Cronut</li>
+            <li>Glazed Cronut</li>
+            <li>Cinnamon Sugar Cronut</li>
+          </ul>
+        </details>
+        <details class="cat" data-cat="more">
+          <summary>
+            <span class="cat-name">Croissants and deli<small>Savory and sweet</small></span>
+            <span class="count">7</span>
+            <span class="price">See online menu</span>
+          </summary>
+          <ul class="flavors">
+            <li>Almond Croissant</li>
+            <li>Chocolate Croissant</li>
+            <li>Plain Croissant</li>
+            <li>Ham and Swiss Croissant</li>
+            <li>Ham and Swiss Jalapeno Croissant</li>
+            <li>Kolache: Cheddar and Sausage</li>
+            <li>Kolache: Pepper Jack and Sausage</li>
+          </ul>
+        </details>
+        <details class="cat" data-cat="box">
+          <summary>
+            <span class="cat-name">Boxes and donut holes<small>Take a batch home</small></span>
+            <span class="count">4</span>
+            <span class="price">from $3.60</span>
+          </summary>
+          <ul class="flavors">
+            <li>Donut holes, $3.60</li>
+            <li>Assorted half dozen, from $10.35</li>
+            <li>Assorted dozen, from $17.38</li>
+            <li>Vegan box, from $15.87</li>
+          </ul>
+        </details>
       </div>
       <p class="note">Prices and flavors change. Check the online menu for what is in the case today.</p>
       <p class="allergen">Allergens: our donuts are made in a kitchen that handles wheat, milk, eggs, soy and tree nuts. Ask us before you order if you have an allergy.</p>
@@ -444,16 +569,6 @@ footer nav a:hover{background:var(--yellow);transform:translateY(-2px)}
   });
   logoBtn.addEventListener('animationend', function(e){ if(e.animationName === 'roll') logoBtn.classList.remove('spin'); });
 
-  /* menu filter */
-  var chips = document.querySelectorAll('.chip'), items = document.querySelectorAll('#menu-list .item');
-  chips.forEach(function(chip){
-    chip.addEventListener('click', function(){
-      var f = chip.dataset.filter;
-      chips.forEach(function(c){ c.setAttribute('aria-pressed', String(c === chip)); });
-      items.forEach(function(it){ it.classList.toggle('dim', f !== 'all' && it.dataset.cat !== f); });
-    });
-  });
-
   /* open now, based on Arizona time */
   function azNow(){
     var parts = new Intl.DateTimeFormat('en-US',{timeZone:'America/Phoenix',weekday:'short',hour:'numeric',minute:'numeric',hour12:false}).formatToParts(new Date());
@@ -517,7 +632,7 @@ footer nav a:hover{background:var(--yellow);transform:translateY(-2px)}
 
   /* gentle reveal, only for things that start below the fold */
   if(!reduce && 'IntersectionObserver' in window){
-    var targets = document.querySelectorAll('.sec-head, .chips, .menu, .order, .about, .visit');
+    var targets = document.querySelectorAll('.sec-head, .menu, .order, .about, .visit');
     var io = new IntersectionObserver(function(entries){
       entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
     }, {rootMargin:'0px 0px -8% 0px'});
@@ -526,6 +641,5 @@ footer nav a:hover{background:var(--yellow);transform:translateY(-2px)}
     });
   }
 })();
-</script>
-</body>
+</script></body>
 </html>
